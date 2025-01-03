@@ -1,0 +1,49 @@
+name: Build Docker Images
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-images:
+    name: Build Docker Images
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+
+    strategy:
+      matrix:
+        arch:
+          - name: arm64
+            triplet: aarch64-linux-gnu
+
+    steps:
+      - uses: actions/checkout@v4.1.6
+        with:
+          fetch-depth: 0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker images
+        uses: docker/build-push-action@v6
+        with:
+          context: cross-build
+          file: cross-build/Dockerfile
+          build-args: |
+            CROSS_ARCH=${{ matrix.arch.name }}
+            CROSS_TRIPLET=${{ matrix.arch.triplet }}
+          push: true
+          tags:
+            ghcr.io/${{ github.repository_owner }}/cross-build-${{ matrix.arch.name }}:latest
+
+
