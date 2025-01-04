@@ -22,7 +22,7 @@ RUN apt-get update && \
 RUN curl -LO https://github.com/Kitware/CMake/releases/download/v3.31.3/cmake-3.31.3-linux-x86_64.sh && \
     sha256sum -c hashes.txt && \
     chmod +x cmake-3.31.3-linux-x86_64.sh && \
-    ./cmake-3.31.3-linux-x86_64.sh --prefix=/usr/local --skip-license \
+    ./cmake-3.31.3-linux-x86_64.sh --prefix=/usr/local --skip-license && \
     rm cmake-3.31.3-linux-x86_64.sh
 
 # Create chroot.
