@@ -25,11 +25,11 @@ RUN echo 'APT::Install-Suggests "0";' >> /etc/apt/apt.conf.d/00-docker && \
 # Update cmake, 22.04 is too old.
 COPY hashes.txt /tmp
 RUN cd /tmp && \
-    curl -LO https://github.com/Kitware/CMake/releases/download/v4.3.2/cmake-4.3.2-linux-x86_64.sh && \
+    curl -LO https://github.com/Kitware/CMake/releases/download/v4.3.4/cmake-4.3.4-linux-x86_64.sh && \
     sha256sum -c hashes.txt && \
-    chmod +x cmake-4.3.2-linux-x86_64.sh && \
-    ./cmake-4.3.2-linux-x86_64.sh --prefix=/usr/local --skip-license && \
-    rm cmake-4.3.2-linux-x86_64.sh
+    chmod +x cmake-4.3.4-linux-x86_64.sh && \
+    ./cmake-4.3.4-linux-x86_64.sh --prefix=/usr/local --skip-license && \
+    rm cmake-4.3.4-linux-x86_64.sh
 
 # Create directory for Android SDK
 RUN mkdir -p ${ANDROID_HOME}
